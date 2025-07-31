@@ -36,7 +36,7 @@ const Dashboard = () => {
 
     try {
       await axios.delete(`/session/${sessionId}`);
-      setSessions(sessions.filter(session => session._id !== sessionId));
+      setSessions(sessions.filter((session) => session._id !== sessionId));
     } catch (error) {
       setError('Failed to delete session');
       console.error('Error deleting session:', error);
@@ -54,89 +54,97 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center">
+        <div className="flex flex-col items-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-cyan-500 mb-4"></div>
+          <p className="text-slate-400 font-light">Loading your sessions...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-slate-100">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Link to="/dashboard" className="text-2xl font-bold text-blue-600">
-                InterviewPrep
-              </Link>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-gray-700">
-                <User size={20} />
-                <span className="text-sm font-medium">{user?.email}</span>
+      <header className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/30">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <Link to="/dashboard" className="flex items-center">
+            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-300 tracking-tight">
+              InterviewPrep
+            </span>
+          </Link>
+
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-2 text-slate-300 bg-slate-800/50 px-3 py-1.5 rounded-full">
+              <div className="bg-gradient-to-br from-indigo-500 to-cyan-400 p-1 rounded-full">
+                <User size={16} className="text-slate-100" />
               </div>
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <LogOut size={18} />
-                <span className="text-sm">Logout</span>
-              </button>
+              <span className="text-sm font-light">{user?.email}</span>
             </div>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-2 text-sm text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 border border-rose-500/30 rounded-xl transition-all duration-300"
+            >
+              <LogOut size={16} />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Your Interview Sessions</h1>
-            <p className="text-gray-600 mt-2">
-              Manage and review your personalized interview preparation sessions
+      <main className="max-w-7xl mx-auto px-6 py-10">
+        {/* Top section */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-6">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-100 mb-2">
+              Your Interview <span className="text-cyan-400">Sessions</span>
+            </h1>
+            <p className="text-slate-400/90 font-light">
+              All your mock interviews in one place. Prepare, practice, and perfect your skills.
             </p>
           </div>
           <Link
             to="/create-session"
-            className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white rounded-xl transition-all duration-300 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/30 group"
           >
-            <Plus size={20} />
-            <span>Create Session</span>
+            <Plus size={20} className="transition-transform group-hover:rotate-90" />
+            <span className="font-medium text-sm">Create Session</span>
           </Link>
         </div>
 
-        {/* Error Message */}
+        {/* Error display */}
         {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-            {error}
+          <div className="mb-8 bg-rose-900/40 border border-rose-800/50 text-rose-100 px-4 py-3 rounded-lg text-sm flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            <span>{error}</span>
           </div>
         )}
 
-        {/* Sessions Grid */}
+        {/* Empty state */}
         {sessions.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          <div className="text-center py-16 border-2 border-dashed border-slate-700/50 rounded-2xl bg-slate-800/20 backdrop-blur-sm">
+            <div className="w-24 h-24 bg-gradient-to-br from-indigo-600/20 to-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-6 text-cyan-400">
+              <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No sessions yet</h3>
-            <p className="text-gray-600 mb-6">
-              Create your first interview session to start preparing
+            <h3 className="text-xl font-bold text-slate-100 mb-2">No sessions yet</h3>
+            <p className="text-slate-400 mb-6 max-w-md mx-auto">
+              Start your interview preparation journey by creating your first session
             </p>
             <Link
               to="/create-session"
-              className="inline-flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white rounded-xl transition-all duration-300 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/30 group"
             >
-              <Plus size={20} />
+              <Plus size={20} className="transition-transform group-hover:rotate-90" />
               <span>Create Your First Session</span>
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {sessions.map((session) => (
               <SessionCard
                 key={session._id}
@@ -152,4 +160,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;
