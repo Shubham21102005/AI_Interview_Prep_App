@@ -44,7 +44,7 @@ const LoginPage = () => {
             <div className="bg-gradient-to-r from-indigo-600 to-cyan-500 p-1.5 rounded-full">
               <Link to="/" className="block bg-slate-900 rounded-full px-4 py-3">
                 <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-300 tracking-tight">
-                  InterviewPrep
+                  Hirely
                 </span>
               </Link>
             </div>

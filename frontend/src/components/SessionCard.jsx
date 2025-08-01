@@ -14,7 +14,7 @@ const SessionCard = ({ session, onDelete, onView }) => {
   return (
     <div className="bg-slate-800/40 backdrop-blur-sm border border-slate-700/30 rounded-2xl p-6 shadow-lg shadow-slate-900/20 hover:shadow-slate-800/30 transition-all duration-300 hover:border-slate-600/50 group">
       {/* Header */}
-      <div className="flex justify-between items-start mb-4">
+      <div className="flex justify-between itsems-start mb-4">
         <div className="flex-1">
           <h3 className="text-xl font-bold text-slate-100 mb-1 line-clamp-2 group-hover:text-cyan-300 transition-colors">
             {session.position}

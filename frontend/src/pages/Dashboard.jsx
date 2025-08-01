@@ -70,7 +70,7 @@ const Dashboard = () => {
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link to="/dashboard" className="flex items-center">
             <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-300 tracking-tight">
-              InterviewPrep
+              Hirely
             </span>
           </Link>
 

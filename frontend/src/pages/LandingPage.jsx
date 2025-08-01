@@ -7,7 +7,7 @@ const LandingPage = () => {
       <nav className="px-6 py-4 backdrop-blur-sm bg-slate-900/50 border-b border-slate-700/30">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-300">
-            InterviewPrep
+            Hirely
           </div>
           <div className="flex space-x-3">
             <Link 
@@ -111,7 +111,7 @@ const LandingPage = () => {
             </svg>
           </div>
           <blockquote className="text-xl italic text-slate-300 max-w-2xl mx-auto mb-6">
-            "InterviewPrep transformed my job search. The personalized questions helped me land my dream role at a FAANG company with a 40% salary increase."
+            "Hirely transformed my job search. The personalized questions helped me land my dream role at a FAANG company with a 40% salary increase."
           </blockquote>
           <div className="text-slate-400 font-medium">
             — Sarah Johnson, Senior Software Engineer
@@ -137,7 +137,7 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-slate-900/50 backdrop-blur-sm border-t border-slate-700/30 py-10">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-slate-500">&copy; 2024 InterviewPrep. All rights reserved.</p>
+          <p className="text-slate-500">&copy; 2024 Hirely. All rights reserved.</p>
           <div className="mt-4 flex justify-center space-x-6">
             <a href="#" className="text-slate-500 hover:text-cyan-400 transition-colors">Privacy</a>
             <a href="#" className="text-slate-500 hover:text-cyan-400 transition-colors">Terms</a>
