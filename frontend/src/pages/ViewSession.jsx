@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ChevronDown, ChevronRight, Plus, Loader2, ExternalLink } from 'lucide-react';
 import axios from 'axios';
+import AnswerSideWindow from '../components/AnswerSideWindow';
 
 const ViewSession = () => {
   const { id } = useParams();
@@ -9,6 +10,9 @@ const ViewSession = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [expandedQuestions, setExpandedQuestions] = useState(new Set());
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [sideWindowOpen, setSideWindowOpen] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
 
   useEffect(() => {
     fetchSession();
@@ -44,6 +48,39 @@ const ViewSession = () => {
 
   const collapseAll = () => {
     setExpandedQuestions(new Set());
+  };
+
+  const loadMoreQuestions = async () => {
+    try {
+      setLoadingMore(true);
+      const response = await axios.post(`/session/${id}/generate-more`, {
+        count: 5
+      });
+      
+      // Update the session with new questions
+      setSession(prevSession => ({
+        ...prevSession,
+        questions: [...prevSession.questions, ...response.data.newQuestions]
+      }));
+      
+      // Show success message (you could add a toast notification here)
+      console.log(response.data.message);
+    } catch (error) {
+      console.error('Error loading more questions:', error);
+      // You could add error handling here (toast notification, etc.)
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
+  const openAnswerSideWindow = (question, answer, questionNumber) => {
+    setSelectedAnswer({ question, answer, questionNumber });
+    setSideWindowOpen(true);
+  };
+
+  const closeAnswerSideWindow = () => {
+    setSideWindowOpen(false);
+    setSelectedAnswer(null);
   };
 
   if (loading) {
@@ -187,7 +224,16 @@ const ViewSession = () => {
 
                 {expandedQuestions.has(index) && (
                   <div className="px-6 py-4 bg-slate-800/20 border-t border-slate-700/50">
-                    <h4 className="font-semibold text-cyan-400 mb-3">Sample Answer:</h4>
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-semibold text-cyan-400">Sample Answer:</h4>
+                      <button
+                        onClick={() => openAnswerSideWindow(question.q, question.a, index + 1)}
+                        className="flex items-center space-x-1 px-3 py-1 text-xs bg-gradient-to-r from-indigo-600/50 to-cyan-500/50 hover:from-indigo-500/50 hover:to-cyan-400/50 border border-slate-600/50 text-slate-200 rounded-lg transition-all duration-300"
+                      >
+                        <ExternalLink size={14} />
+                        <span>Expand</span>
+                      </button>
+                    </div>
                     <div className="bg-gradient-to-br from-indigo-600/10 to-cyan-500/10 border border-slate-700/50 rounded-xl p-5">
                       <p className="text-slate-300 leading-relaxed">{question.a}</p>
                     </div>
@@ -195,6 +241,30 @@ const ViewSession = () => {
                 )}
               </div>
             ))}
+          </div>
+
+          {/* Load More Questions Button */}
+          <div className="mt-8 pt-6 border-t border-slate-700/50">
+            <button
+              onClick={loadMoreQuestions}
+              disabled={loadingMore}
+              className="w-full flex items-center justify-center space-x-2 px-6 py-4 bg-gradient-to-r from-indigo-600/50 to-cyan-500/50 hover:from-indigo-500/50 hover:to-cyan-400/50 border border-slate-600/50 text-slate-200 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loadingMore ? (
+                <>
+                  <Loader2 size={20} className="animate-spin" />
+                  <span>Generating more questions...</span>
+                </>
+              ) : (
+                <>
+                  <Plus size={20} />
+                  <span>Load More Questions (+5)</span>
+                </>
+              )}
+            </button>
+            <p className="text-center text-sm text-slate-400 mt-3">
+              Generate 5 additional questions to expand your interview preparation
+            </p>
           </div>
 
           {(!session.questions || session.questions.length === 0) && (
@@ -210,6 +280,17 @@ const ViewSession = () => {
           )}
         </div>
       </main>
+
+      {/* Answer Side Window */}
+      {selectedAnswer && (
+        <AnswerSideWindow
+          isOpen={sideWindowOpen}
+          onClose={closeAnswerSideWindow}
+          question={selectedAnswer.question}
+          answer={selectedAnswer.answer}
+          questionNumber={selectedAnswer.questionNumber}
+        />
+      )}
     </div>
   );
 };
