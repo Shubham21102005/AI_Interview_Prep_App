@@ -56,7 +56,10 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   // Configure axios defaults
-  axios.defaults.baseURL = 'http://localhost:5000/api';
+  axios.defaults.baseURL = import.meta.env.VITE_BACKEND;
+  axios.defaults.withCredentials = true;
+
+
 
   // Check authentication status on app load
   useEffect(() => {
