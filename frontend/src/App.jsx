@@ -56,7 +56,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   // Configure axios defaults
-  axios.defaults.baseURL = import.meta.env.VITE_ENV === 'production'
+  axios.defaults.baseURL = import.meta.env.MODE === 'production'
   ? import.meta.env.VITE_BACKEND
   : 'http://localhost:5000/api';
 
