@@ -17,9 +17,10 @@ const PORT= process.env.PORT || 8080;
 
 // CORS Configuration
 const allowedOrigins = [
-  'http://localhost:5173', // For local dev
-  'https://ai-interview-prep-app-elfb.vercel.app/' // Replace with your actual Vercel frontend URL
+  'http://localhost:5173',
+  'https://ai-interview-prep-app-zgox.vercel.app'  // ✅ Correct Vercel frontend URL
 ];
+
 app.use(cors({
   origin: allowedOrigins, // Allow requests from your frontend
   credentials: true,               // Allow cookies and authorization headers
@@ -42,3 +43,4 @@ app.listen(PORT,async  ()=>{
     console.log(`Server is running on ${PORT}`);
     
 })
+
